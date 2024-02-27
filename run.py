@@ -35,6 +35,7 @@ bg = pygame.image.load('img/fon1.png')
 ground_img = pygame.image.load('img/ground.png')
 button_img = pygame.image.load('img/restart.png')
 
+
 def draw_text(text, font, text_color, x, y):
     img = font.render(text, True, text_color)
     screen.blit(img, (x, y))
@@ -118,12 +119,37 @@ class Pipe(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
+
+class Button():
+    def __init__(self, x, y, image):
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+
+    def draw(self):
+
+        action = False
+
+        # получение положение мыши
+        pos = pygame.mouse.get_pos()
+
+        # проверка, наведена ли мышь на кнопку
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] == 1:
+                action = True
+
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+
+        return action
+
+
 bird_group = pygame.sprite.Group()
 pipe_group = pygame.sprite.Group()
 flappy = Bird(100, int(screen_height / 2))
 
 bird_group.add(flappy)
 
+button = Button(screen_width // 2 - 50, screen_height // 2 - 100, button_img)
 
 # - Основной игровой цикл -
 
@@ -181,7 +207,10 @@ while run:
         pipe_group.update()
 
     # Проверка результата и рестрат игры
-   # !!!
+    if game_over is True:
+        if button.draw() == True:
+            game_over = False
+            score = reset_game()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
