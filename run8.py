@@ -223,3 +223,4 @@ while run:
     pygame.display.update()
 
 pygame.quit()
+# что-то поменял
