@@ -124,6 +124,7 @@ flappy = Bird(100, int(screen_height / 2))
 
 bird_group.add(flappy)
 
+
 # Основной игровой цикл
 run = True
 while run:
@@ -135,9 +136,18 @@ while run:
     pipe_group.draw(screen)
     screen.blit(ground_img, (ground_scroll, 768))
 
+    # Проверка коллизий
+    if pygame.sprite.groupcollide(bird_group, pipe_group, False, False) or flappy.rect.top < 0:
+        game_over = True
+    if flappy.rect.bottom >= 768:
+        game_over = True
+        flying = False
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+        if event.type == pygame.MOUSEBUTTONDOWN and flying == False and game_over == False:
+            flying = True
 
     pygame.display.update()
 
