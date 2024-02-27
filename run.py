@@ -1,3 +1,4 @@
+import random
 import pygame
 
 # Инициализация игры(модуль PyGame)
@@ -33,6 +34,19 @@ pygame.display.set_caption('Flappy Bird')
 bg = pygame.image.load('img/fon1.png')
 ground_img = pygame.image.load('img/ground.png')
 #!!!! button_img = pygame.image.load('img/restart.png')
+
+def draw_text(text, font, text_color, x, y):
+    img = font.render(text, True, text_color)
+    screen.blit(img, (x, y))
+
+
+def reset_game():
+    pipe_group.empty()
+    flappy.rect.x = 100
+    flappy.rect.y = int(screen_height / 2)
+    score = 0
+    return score
+
 
 # Создание спрайтов
 class Bird(pygame.sprite.Sprite):
